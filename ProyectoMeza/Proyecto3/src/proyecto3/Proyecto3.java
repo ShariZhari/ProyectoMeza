@@ -18,4 +18,8 @@ public class Proyecto3 {
         // ´porque
     }
     
+    public void ok(){
+        //es una prueba
+}
+    
 }
