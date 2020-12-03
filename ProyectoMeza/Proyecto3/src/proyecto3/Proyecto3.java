@@ -16,13 +16,14 @@ public class Proyecto3 {
      */
     public static void main(String[] args) {
         // ´porque
-        //aaaaaaah
-        //yay
+        
     }
     
     public void ok(){
         //es una prueba
         //desde vscode :)
+        //aaaaaaah
+        //yay
 }
     
 }
