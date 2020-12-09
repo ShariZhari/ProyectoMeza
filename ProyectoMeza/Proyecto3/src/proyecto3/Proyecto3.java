@@ -1,5 +1,6 @@
 package proyecto3;
 import java.util.*;  
+import javax.swing.JOptionPane;
 
 public class Proyecto3 
 {
@@ -32,8 +33,43 @@ public class Proyecto3
     {
         return n;
     }
+
+    public int[][] getMatriz() 
+    {
+        return matriz;
+    }
     
+    public int contarEntradas(int lugar)
+    {
+        int conteo[][] = grafo.getMatriz();
+        int entradas = 0;
+        
+        for(int i = 0; i < grafo.getN(); i++)
+        {
+            if(conteo[i][lugar] == 1)
+            {
+                entradas++;
+            }
+        }
+        
+        return entradas;
+    }
     
+    public int contarSalidas(int lugar)
+    {
+        int conteo[][] = grafo.getMatriz();
+        int salidas = 0;
+        
+        for(int i = 0; i < grafo.getN(); i++)
+        {
+            if(conteo[lugar][i] == 1)
+            {
+                salidas++;
+            }
+        }
+        
+        return salidas;
+    }
     
     public static void crearGrafo()
     {        
@@ -171,7 +207,7 @@ public class Proyecto3
         }
     }
     
-    public static void main(String[] args) 
+    public static void main(String[] args) throws InterruptedException 
     {
         boolean salir = false; 
         
@@ -182,6 +218,7 @@ public class Proyecto3
             System.out.println("2) Imprimir matriz y lista de adyacencia");
             System.out.println("3) Recorrido en profundidad (DFS)");
             System.out.println("4) Recorrido en anchura (BFS)");
+            System.out.println("5) Problema con uso de grafos dirigidos");
             System.out.println("... ");
             System.out.println("7) Salir ");
             System.out.print("Opción: ");
@@ -207,7 +244,7 @@ public class Proyecto3
                         
                     break;
                 }
-                case('3'):
+                case('3'): //Con ciclos
                 {
                     if(!grafoCreado)
                     {
@@ -219,13 +256,13 @@ public class Proyecto3
                         {                            
                             System.out.print("Ingresa el nodo raíz: ");
                             raiz = sc.nextInt();
-                            grafo.DFS(raiz);
                         }while (raiz < 0 || raiz > grafo.getN());
+                        grafo.DFS(raiz);
                     }
                         
                     break;
                 }
-                case('4'):
+                case('4'): //Con ciclos
                 {
                     if(!grafoCreado)
                     {
@@ -237,10 +274,39 @@ public class Proyecto3
                         {                            
                             System.out.print("Ingresa el nodo raíz: ");
                             raiz = sc.nextInt();
-                            grafo.DFS(raiz);
-                        }while (raiz < 0 || raiz > grafo.getN());
+                        }while(raiz < 0 || raiz > grafo.getN());
+                        grafo.BFS(raiz);
                     }
                         
+                    break;
+                }
+                case('5'): //Fabor de no criticar, es la 1:45am D:
+                {
+                    System.out.println("\nSuponga que a lo largo de su colonia, usted ha ubicado 5 puntos estratégicos, digamos: una tienda de ropa"
+                            + ", \nun puesto de comida, una papelería, una escuela y, por supuesto, su hogar. Ahora bien, con el apogeo de las plata-"
+                            + "\nformas de entrega de comida a domicilio (dada la situación actual), usted también se ha visto en la necesidad, o el"
+                            + "\nsimple deseo, de ordenar comida a su hogar. No obstante, los repartidores suelen enfrentar un problema que cada vez"
+                            + "\nparece más común: Google Maps con frecuencia marca calles en sentidos contrarios. Ante esta situación, usted ha deci"
+                            + "\ndido apoyar a los repartidores indicándoles la manera en que pueden atravesar su colonia, de lado a lado, a partir de"
+                            + "\nlos sitios característicos, sin incurrir en calles en sentido contrario, lo que los ayuda a prevenir tomar parte de un"
+                            + "\naccidente grave. Así pues, usted indica los caminos que pueden tomar a partir de cualquier punto, al mismo tiempo que les"
+                            + "\nindica el número de calles de entrada y salida. Para ello, usted cuenta con"
+                            + "\nla numeración (hecha por usted) de estos sitios.\n");
+                    Thread.currentThread().sleep(25000); //Pausa la ejecución del programa por 25000 milisegundos o 25 segundos
+                    if(!grafoCreado)
+                    {
+                        System.out.println("¡Para ver el problema, primero carga tu grafo dirigido!");
+                    }else
+                    {
+                        System.out.println("¿En qué sitio se encuentra ahora mismo el repartidor?");
+                        int sitio = sc.nextInt();
+                        
+                        System.out.println("\nA partir de aquí, usted cuenta con " + grafo.contarSalidas(sitio) + " caminos para salir y  al sitio desembocan " + grafo.contarEntradas(sitio) + " calles");
+                        
+                        System.out.print("Un camino que puede tomar para circular la colonia es a través de los puntos: ");
+                        grafo.DFS(sitio);
+                        System.out.println("\n");
+                    }
                     break;
                 }
                 case('7'):
