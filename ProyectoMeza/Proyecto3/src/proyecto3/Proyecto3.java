@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Proyecto3 
 {
-    private int n;
+    private int n; //Número de vértices
     private int matriz[][];
     private LinkedList <Integer> lista[];
     
@@ -27,27 +27,34 @@ public class Proyecto3
             }
         }
     }
+
+    public int getN() 
+    {
+        return n;
+    }
+    
+    
     
     public static void crearGrafo()
-    {
-        grafoCreado = true;
-        
+    {        
         try 
         {
             System.out.println("Inserte el número de vértices del grafo: ");
             int v = sc.nextInt(); //Número de vértices
             grafo = new Proyecto3(v);
+            
             for (int i = 0;i < v; i++)
             {
-                System.out.println("Inserte el número de aristas del vértice " + (i+1) + ": ");
+                System.out.println("Inserte el número de aristas del vértice " + i + ": ");
                 int e = sc.nextInt();
                 for (int j = 0; j < e; j++)
                 {
-                    System.out.println("Inserte el vértice al que se conecta la arista " + (j+1) + ": ");
+                    System.out.println("Inserte el vértice al que se conecta la arista " + j + ": ");
                     int arista = sc.nextInt();
                     grafo.add(i, arista);
                 }
             }
+            grafoCreado = true;
         } catch (Exception e) 
         {
             System.out.println(e);
@@ -75,6 +82,7 @@ public class Proyecto3
             System.out.println("");
         }
     }
+    
     void MostrarLista()
     {
         System.out.println("Lista de adyacencia");
@@ -105,6 +113,64 @@ public class Proyecto3
         System.out.println("");
     }
     
+    public void DFS(int r)
+    {
+        //Marcar todos los vértices como no visitados
+        boolean visited[] = new boolean[grafo.getN()];
+ 
+        //Función recursiva
+        DFSUtil(r, visited);
+    }
+    
+    //El método que usa el método DFS
+    public void DFSUtil(int r, boolean visited[])
+    {
+        //Se marca el actual como visitado
+        visited[r] = true;
+        System.out.print(r + " ");
+ 
+        //Recursividad para los nodos adyacentes
+        Iterator<Integer> i = lista[r].listIterator();
+        while (i.hasNext()) 
+        {
+            int h = i.next();
+            if (!visited[h])
+                DFSUtil(h, visited);
+        }
+    }
+    
+    void BFS(int s)
+    {
+        //Se marcan todos los vértices como no visitados
+        boolean visited[] = new boolean[grafo.getN()];
+ 
+        //Se utiliza una cola en este algoritmo
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+ 
+        //Se marca el nodo actual como visitado y se añade a la cola
+        visited[s] = true;
+        queue.add(s);
+ 
+        while (!queue.isEmpty())
+        {
+            //Se retira el nodo de la cola y se imprime
+            s = queue.poll();
+            System.out.print(s + " ");
+ 
+            //Se buscan los vértices adyacentes, si no han sido visitados, se marcan y se ponen en la cola
+            Iterator<Integer> i = lista[s].listIterator();
+            while (i.hasNext())
+            {
+                int h = i.next();
+                if (!visited[h])
+                {
+                    visited[h] = true;
+                    queue.add(h);
+                }
+            }
+        }
+    }
+    
     public static void main(String[] args) 
     {
         boolean salir = false; 
@@ -114,6 +180,8 @@ public class Proyecto3
             System.out.println("Menú");
             System.out.println("1) Crear nuevo grafo");
             System.out.println("2) Imprimir matriz y lista de adyacencia");
+            System.out.println("3) Recorrido en profundidad (DFS)");
+            System.out.println("4) Recorrido en anchura (BFS)");
             System.out.println("... ");
             System.out.println("7) Salir ");
             System.out.print("Opción: ");
@@ -135,6 +203,42 @@ public class Proyecto3
                     {
                         grafo.MostrarMatriz();
                         grafo.MostrarLista();
+                    }
+                        
+                    break;
+                }
+                case('3'):
+                {
+                    if(!grafoCreado)
+                    {
+                        System.out.println("¡Debes crear un grafo primero!");
+                    }else
+                    {
+                        int raiz;
+                        do 
+                        {                            
+                            System.out.print("Ingresa el nodo raíz: ");
+                            raiz = sc.nextInt();
+                            grafo.DFS(raiz);
+                        }while (raiz < 0 || raiz > grafo.getN());
+                    }
+                        
+                    break;
+                }
+                case('4'):
+                {
+                    if(!grafoCreado)
+                    {
+                        System.out.println("¡Debes crear un grafo primero!");
+                    }else
+                    {
+                        int raiz;
+                        do 
+                        {                            
+                            System.out.print("Ingresa el nodo raíz: ");
+                            raiz = sc.nextInt();
+                            grafo.DFS(raiz);
+                        }while (raiz < 0 || raiz > grafo.getN());
                     }
                         
                     break;
