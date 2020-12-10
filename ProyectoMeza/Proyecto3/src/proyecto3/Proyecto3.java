@@ -34,6 +34,9 @@ import java.util.*;
         para que no se tenga que repetir el mismo procedimiento cuando quiera ver si el grafo
         es perfecto o no.
         (Igual se puede poner en un mismo inciso xd)
+
+        Cualquier duda me dicen
+                                                                                    Sandra
 */
 
 class par //permitirá asociar a cada vértice con su total de aristas
@@ -148,7 +151,7 @@ public class Proyecto3
                 }
                 TotalAxV.add(i, new par(e,i)); //se guarda el numero total de aristas que tiene cada vértice
             }
-            TotalAxV.sort(par::comparar); //se ordenan los vértices del menor al mayor número de aristas
+            TotalAxV.sort(par::comparar); //se ordenan los vértices del menor al mayor número de aristas (se está pasando como el comparador del sort() una función estática por referencia, por eso el par::comparar)
             grafo.ActivarPareo(TotalAxV);
             grafoCreado = true;
         } catch (Exception e) 
