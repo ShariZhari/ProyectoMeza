@@ -135,19 +135,41 @@ public class Proyecto3
     {        
         try 
         {
-            System.out.println("Inserte el número de vértices del grafo: ");
-            int v = sc.nextInt(); //Número de vértices
-            grafo = new Proyecto3(v);
-            ArrayList<par> TotalAxV = new ArrayList<par>(v);
+            int v;
+            ArrayList<par> TotalAxV;
+            do{
+                System.out.println("Inserte el número de vértices del grafo: ");
+                v = sc.nextInt(); //Número de vértices
+                grafo = new Proyecto3(v);
+                TotalAxV = new ArrayList<par>(v);
+                if(v<=0){
+                    System.out.println("El valor debe de ser mayor a 0");
+                }
+            }while(v<=0);
+            
             for (int i = 0;i < v; i++)
             {
-                System.out.println("Inserte el número de aristas del vértice " + i + ": ");
-                int e = sc.nextInt();
+                int e,arista;
+                do{
+                    System.out.println("Inserte el número de aristas del vértice " + i + ": ");
+                    e = sc.nextInt();
+                    if(e<0){
+                        System.out.println("El valor debe de ser mayor o igual a 0");
+                    }
+                }while(e<0);
+  
                 for (int j = 0; j < e; j++)
                 {
-                    System.out.println("Inserte el vértice al que se conecta la arista " + j + ": ");
-                    int arista = sc.nextInt();
-                    grafo.add(i, arista);
+                    do{
+                        System.out.println("Inserte el vértice al que se conecta la arista " + j + ": ");
+                        arista = sc.nextInt();
+                    if(arista<0){
+                            System.out.println("La arista debe de ser mayor o igual a 0");
+                        }
+                    } while(arista<0);
+                        grafo.add(i, arista);
+                        
+                    
                 }
                 TotalAxV.add(i, new par(e,i)); //se guarda el numero total de aristas que tiene cada vértice
             }
@@ -198,19 +220,7 @@ public class Proyecto3
         }
     }
     
-    void MostrarPares()
-    {
-        System.out.println("Pares de nodos");
-        for(int i = 0;i < n; i++)
-        {
-            Iterator<Integer> num = lista[i].listIterator();
-             while(num.hasNext())
-             {
-                System.out.print("[" + i + ", " + num.next() + "]");
-             }
-        }
-        System.out.println("");
-    }
+    
     
     public void DFS(int r)
     {
@@ -340,6 +350,29 @@ public class Proyecto3
 
         }
     }
+    void problemaBipartito(){//es lo que se me ocurrió :c 
+        System.out.println("Supongamos que una aplicación de citas se basa en los\n"
+                + "gustos y afinidades de las personas para poder generar la\n"
+                + "mayor cantidad de parejas con una buena probabilidad de éxito,\n"
+                + "para lograr esto a cada perfil se le asigna un número y se\n"
+                + "relaciona sólo con los de aquellas personas con las que será\n"
+                + "mayormente compatible. En caso de que alguna persona no haya\n"
+                + "sido emparejada se le notificará con un mensaje para que no\n"
+                + "desista en el amor. Si se toma en cuenta el grafo proporcionado\n"
+                + "como las personas registradas en la aplicación, lo que se le\n"
+                + "mostrará  a cada persona será los siguiente:\n ");
+        
+        for(int i = 0;i < n; i++)
+        {   
+            if(pares[i]==-1){//mensajes chidos jajaja
+                System.out.println("Perfil " + i + ": El amor está a la vuelta de la esquina");
+                
+            }
+            else
+                System.out.println("Perfil " + i + ": " + "Se le mostrará el perfil de la persona "+pares[i]);
+        }
+        System.out.println("");
+    }
 
     public static void main(String[] args) throws InterruptedException 
     {
@@ -355,7 +388,7 @@ public class Proyecto3
             System.out.println("5) Problema con uso de grafos dirigidos");
             System.out.println("6) Determinar si el grafo tiene pareos perfectos");
             System.out.println("7) Obtener el pareo maximal");
-            System.out.println("... ");
+            System.out.println("8) Problema con uso de grafos bipartitos");
             System.out.println("9) Salir ");
             System.out.print("Opción: ");
             char op = sc.next().charAt(0);
@@ -464,6 +497,18 @@ public class Proyecto3
                     }else
                     {
                         grafo.ImprimirPareos(false);
+                    }
+                        
+                    break;
+                }
+                case('8'):
+                {
+                    if(!grafoCreado)
+                    {
+                        System.out.println("¡Debes crear un grafo primero!");
+                    }else
+                    {
+                        grafo.problemaBipartito();
                     }
                         
                     break;
