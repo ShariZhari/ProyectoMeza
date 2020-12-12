@@ -140,33 +140,34 @@ public class Proyecto3
             do{
                 System.out.println("Inserte el número de vértices del grafo: ");
                 v = sc.nextInt(); //Número de vértices
-                grafo = new Proyecto3(v);
-                TotalAxV = new ArrayList<par>(v);
                 if(v<=0){
-                    System.out.println("El valor debe de ser mayor a 0");
+                    System.out.println("El valor debe de ser mayor a 0");    
                 }
-            }while(v<=0);
-            
+            }while(v<=0);   
+            grafo = new Proyecto3(v);
+            TotalAxV = new ArrayList<par>(v);
+              
+
             for (int i = 0;i < v; i++)
             {
                 int e,arista;
                 do{
                     System.out.println("Inserte el número de aristas del vértice " + i + ": ");
                     e = sc.nextInt();
-                    if(e<0){
-                        System.out.println("El valor debe de ser mayor o igual a 0");
+                    if(e<0||e>v){
+                        System.out.println("El valor debe de ser mayor o igual a 0, y menor o igual al total de vértices");
                     }
-                }while(e<0);
+                }while(e<0||e>v);
   
                 for (int j = 0; j < e; j++)
                 {
                     do{
                         System.out.println("Inserte el vértice al que se conecta la arista " + j + ": ");
                         arista = sc.nextInt();
-                    if(arista<0){
-                            System.out.println("La arista debe de ser mayor o igual a 0");
+                    if(arista<0||arista>(v-1)){
+                            System.out.println("Elija un vértice entre 0 y "+(v-1));
                         }
-                    } while(arista<0);
+                    } while(arista<0||arista>v-1);
                         grafo.add(i, arista);
                         
                     
@@ -310,6 +311,9 @@ public class Proyecto3
             int destino=i.next();
                 if(pares[origen]==-1)
                 {
+                    if(origen==destino){ //para evitar lazos
+                        continue;
+                    }
                     if(destino==cambio) //cambio determina si dicha arista ya había sido usada en un pareo anterior de ese vértice
                     { //se ignorará esta arista si se ha llamado a la función con el objetivo de cambiar el pareo de un vertice que ya había sido apareado anteriormente
                         continue;
